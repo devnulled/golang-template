@@ -1,8 +1,16 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
+# Two groups per ecosystem, split by bump size.
+#
+# Ungrouped, Dependabot opens one PR per dependency. The three build-tool
+# bumps that were open at once (goyek/v2, goyek/x, golangci-lint) all edited
+# the same build/go.mod and build/go.sum, so merging the first left the other
+# two conflicting and both had to be re-resolved by hand. Grouping collapses
+# each weekly round into a single PR per bump size.
+#
+# The split is patch/minor rather than one catch-all group because a grouped
+# PR reports the *highest* bump it contains. A combined patch+minor group
+# would always type as semver-minor, which forecloses any patch-only
+# auto-merge rule. Major bumps match neither group and still arrive
+# individually, so breaking changes keep a dedicated review surface.
 version: 2
 updates:
   # Maintain dependencies for Go
@@ -10,15 +18,39 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      go-deps-patch:
+        patterns: ["*"]
+        update-types: ["patch"]
+      go-deps-minor:
+        patterns: ["*"]
+        update-types: ["minor"]
 
-  # Maintain dependencies for build tools
+  # Maintain dependencies for build tools (goyek task runner, linters)
   - package-ecosystem: "gomod"
     directory: "/build"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      build-deps-patch:
+        patterns: ["*"]
+        update-types: ["patch"]
+      build-deps-minor:
+        patterns: ["*"]
+        update-types: ["minor"]
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      actions-patch:
+        patterns: ["*"]
+        update-types: ["patch"]
+      actions-minor:
+        patterns: ["*"]
+        update-types: ["minor"]
