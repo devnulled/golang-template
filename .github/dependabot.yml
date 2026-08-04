@@ -18,7 +18,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 20
     groups:
       go-deps-patch:
         patterns: ["*"]
@@ -32,7 +32,7 @@ updates:
     directory: "/build"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 20
     groups:
       build-deps-patch:
         patterns: ["*"]
@@ -46,7 +46,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 20
     groups:
       actions-patch:
         patterns: ["*"]
