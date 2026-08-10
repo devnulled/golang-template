@@ -1,7 +1,7 @@
 name: build
 
 on:
-  push: 
+  push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-go@v7
         with:
-          go-version: '1.19'
+          go-version: 'stable'
 
       - name: Build
         run: ./goyek.sh all diff
